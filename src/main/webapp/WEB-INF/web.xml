@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>i2b2 Proxy Server</display-name>
+	<!-- Servlets -->
+    <servlet>
+        <servlet-name>SecureProxy</servlet-name>
+        <servlet-class>edu.harvard.hms.dbmi.bd2k.i2b2proxy.servlet.SecureProxy</servlet-class>
+    </servlet>
+	
+	 <servlet-mapping>
+        <servlet-name>SecureProxy</servlet-name>
+        <url-pattern>/index.php</url-pattern>
+    </servlet-mapping>
+	
+	
+	<!-- Parameters -->
+	
+	<context-param>
+		<param-name>i2b2UserName</param-name>
+		<param-value>OPTIONAL USER NAME</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>i2b2Password</param-name>
+		<param-value>PASSWORD</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>i2b2Server</param-name>
+		<param-value>SERVER</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>client_id</param-name>
+		<param-value>CLIENT ID</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>client_secret</param-name>
+		<param-value>CLIENT SECRET</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>domain</param-name>
+		<param-value>DOMAIN</param-value>
+	</context-param>
+</web-app>
