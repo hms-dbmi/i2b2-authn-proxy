@@ -52,8 +52,6 @@ public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain fc)
 			throws IOException, ServletException {
 
-		// If no user is associated then validate the authorization
-		// header
 		String user = validateAuthorizationHeader((HttpServletRequest) req);
 
 		if (user == null) {
@@ -68,6 +66,10 @@ public class SessionFilter implements Filter {
 		HttpSession session = ((HttpServletRequest) req).getSession();
 		session.setAttribute("user", user);
 
+		// FOR DEBUGGING PURPOSES ONLY!
+//		HttpSession session = ((HttpServletRequest) req).getSession();
+//		session.setAttribute("user", "Jeremy_Easton-Marks@hms.harvard.edu");
+//
 		fc.doFilter(req, res);
 	}
 

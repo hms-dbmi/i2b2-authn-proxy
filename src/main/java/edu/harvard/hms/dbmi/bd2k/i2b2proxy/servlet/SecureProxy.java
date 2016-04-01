@@ -46,6 +46,11 @@ public class SecureProxy extends HttpServlet {
 
 	@Inject
 	private ServletContext context;
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
+		doPost(request, resp);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse resp)
@@ -57,6 +62,7 @@ public class SecureProxy extends HttpServlet {
 			HttpPost post = new HttpPost(this.i2b2Server);
 			post.setHeader("Content-Type", "text/xml");
 			StringWriter writer = parseXML(request.getInputStream(), user);
+			
 			post.setEntity(new StringEntity(writer.toString()));
 			writer.flush();
 			writer.close();
@@ -95,7 +101,7 @@ public class SecureProxy extends HttpServlet {
 			String userNameExpression = "//message_header/security/username";
 			Node userNode = (Node) xPath.evaluate(userNameExpression, document,
 					XPathConstants.NODE);
-			userNode.setTextContent(this.i2b2UserName);
+			userNode.setTextContent(user);
 		}
 
 		// Password
