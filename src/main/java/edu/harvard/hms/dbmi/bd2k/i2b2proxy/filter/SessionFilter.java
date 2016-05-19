@@ -38,6 +38,7 @@ import com.auth0.jwt.JWTVerifyException;
 public class SessionFilter implements Filter {
 	private String clientId;
 	private String clientSecret;
+	private String userField;
 
 	@Inject
 	private ServletContext context;
@@ -46,6 +47,7 @@ public class SessionFilter implements Filter {
 	public void init(FilterConfig fliterConfig) throws ServletException {
 		this.clientSecret = context.getInitParameter("client_secret");
 		this.clientId = context.getInitParameter("client_id");
+		this.userField = context.getInitParameter("userField");
 	}
 
 	@Override
@@ -62,14 +64,10 @@ public class SessionFilter implements Filter {
 			res.getOutputStream().close();
 			return;
 		}
-		
+
 		HttpSession session = ((HttpServletRequest) req).getSession();
 		session.setAttribute("user", user);
 
-		// FOR DEBUGGING PURPOSES ONLY!
-//		HttpSession session = ((HttpServletRequest) req).getSession();
-//		session.setAttribute("user", "Jeremy_Easton-Marks@hms.harvard.edu");
-//
 		fc.doFilter(req, res);
 	}
 
@@ -98,7 +96,7 @@ public class SessionFilter implements Filter {
 				Map<String, Object> decodedPayload = new JWTVerifier(secret,
 						this.clientId).verify(token);
 
-				return (String) decodedPayload.get("email");
+				return (String) decodedPayload.get(this.userField);
 
 			} catch (InvalidKeyException | NoSuchAlgorithmException
 					| IllegalStateException | SignatureException | IOException
